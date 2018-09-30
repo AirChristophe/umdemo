@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "142090680532",
-    "firebase_url": "https://toutes-mes-ordonnances.firebaseio.com",
-    "project_id": "toutes-mes-ordonnances",
-    "storage_bucket": "toutes-mes-ordonnances.appspot.com"
+    "project_number": "640914954695",
+    "firebase_url": "https://umdemo-69b88.firebaseio.com",
+    "project_id": "umdemo-69b88",
+    "storage_bucket": "umdemo-69b88.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:142090680532:android:d186e6ffab6a9cae",
+        "mobilesdk_app_id": "1:640914954695:android:8e8b1f088d0e4b0c",
         "android_client_info": {
-          "package_name": "com.toutesmesordonnances.app"
+          "package_name": "com.umdemo.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "142090680532-lbl3078cvd37g1dq5mghflstvus5bks5.apps.googleusercontent.com",
+          "client_id": "640914954695-da0nqch1mgoin4jmtu3tspa7bq26tugh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_zt8oDbkgzmU0wASbkCSpBxTBp0MeQUM"
+          "current_key": "AIzaSyBjH7p9Uw-ROwrJO6cOdXLIwCQJOgM88Xs"
         }
       ],
       "services": {
