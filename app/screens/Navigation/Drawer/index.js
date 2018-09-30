@@ -3,12 +3,12 @@ import {
     createDrawerNavigator
 } from 'react-navigation';
 import Home from 'app/screens/Home';
+import Profile from 'app/screens/Auth/Profile';
 import MyApps from 'app/screens/MyApps';
 import MyActivities from 'app/screens/MyActivities';
 import Timeout from 'app/screens/Timeout';
 import { Icon } from 'react-native-elements';
 import { colors } from 'umdemo/constants';
-
 
 export default createDrawerNavigator({
     Home: {
@@ -18,6 +18,20 @@ export default createDrawerNavigator({
             drawerIcon: () => (
               <Icon
                   name='home'
+                  type='font-awesome'
+                  size={24}
+                  color={colors.main}
+              />
+            ),
+          }),
+    },
+    Profile: {
+        screen: Profile,
+        navigationOptions: ({ navigation }) => ({
+            drawerLabel: 'My Profile',
+            drawerIcon: () => (
+              <Icon
+                  name='ticket'
                   type='font-awesome'
                   size={24}
                   color={colors.main}

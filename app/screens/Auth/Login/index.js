@@ -184,6 +184,7 @@ class Login extends React.Component {
             title='Je crée mon compte' 
             buttonStyle={styles.button}
             onPress={() => this.props.navigation.navigate('Register')}
+            // onPress={() => this.props.navigation.navigate('Reset')}
           />
         </View>
         <ErrorMessage />

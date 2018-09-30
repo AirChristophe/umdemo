@@ -11,6 +11,7 @@ import {
 import Onboarding from 'app/components/OnBoarding';
 import Stack from 'app/screens/Navigation/Stack';
 
+
 class AppScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -56,6 +57,7 @@ class AppScreen extends React.Component {
     if (this.state.status === 'notOnBoarded') {
       return ( <Onboarding onboardingFinish={this.onboardingFinish} /> );
     }
+
     
     return ( <Stack /> );
   }

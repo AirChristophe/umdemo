@@ -1,12 +1,25 @@
 import React from 'react';
+import {
+    compose
+  } from 'redux';
+import {
+    connect
+  } from 'react-redux';
+
 import { View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Icon, Text } from 'react-native-elements';
 import { Constants } from 'expo';
-import { colors } from 'umdemo/constants';
 
 class Home extends React.Component {
 
     render() {
+
+        const {
+            auth,
+          } = this.props;
+
+    
+
       return (
         <View style={styles.root}>
             <View style={styles.menu}>
@@ -59,6 +72,16 @@ const styles = StyleSheet.create({
     }, 
 });
 
+const mapStateToProps = state => {
+    return { ...state
+    };
+};
+  
+const withConnect = connect(
+    mapStateToProps,
+    false,
+);
 
-
-export default Home;
+export default compose(
+    withConnect,
+)(Home);

@@ -7,13 +7,18 @@ import Drawer from 'app/screens/Navigation/Drawer';
 import MyApps from 'app/screens/MyApps';
 import MyActivities from 'app/screens/MyActivities';
 
+import Login from 'app/screens/Auth/Login';
+import Reset from 'app/screens/Auth/Reset';
+import Register from 'app/screens/Auth/Register';
+import Profile from 'app/screens/Auth/Profile';
+
+import Auth from 'app/screens/Auth';
 
 const RootStack = createStackNavigator(
     {
         Drawer: Drawer,
         MyApps: MyApps,
         MyActivities: MyActivities,
-
     },
     {
       initialRouteName: 'Drawer',
@@ -21,9 +26,18 @@ const RootStack = createStackNavigator(
     }
   );
 
+
 class Stack extends React.Component {
-    
+
     render() {
+        const {
+            auth,
+          } = this.props;
+
+        if (auth.loginStatus !== 'logged') {
+            return (<Auth />);
+        }
+
         return ( <RootStack /> );
     }
 }
