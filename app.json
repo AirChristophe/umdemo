@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "icon": "./assets/app-icon.png",
+    "name": "umdemo",
+    "orientation": "portrait",
+    "primaryColor": "#008857",
+    "privacy": "unlisted",
+    "sdkVersion": "29.0.0",
+    "slug": "umdemo",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "umdemo/assets/**",
+      "umdemo/assets/images/**",
+      "./assets/**",
+      "./assets/images/**",
+      "assets/**",
+      "assets/images/**"
+    ],
+    "splash": {
+      "image": "./assets/splash_screen.png",
+      "backgroundColor": "#45b471",
+      "resizeMode": "cover"
+    },
+    "ios": {
+      "bundleIdentifier": "com.umdemo.app"
+    },
+    "android": {
+      "package": "com.umdemo.app",
+      "versionCode": 10001,
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyD7Ixkk0dO_EsmetE6u1LzZ630kttPjODc"
+        }
+      }
+    }
+  }
+}

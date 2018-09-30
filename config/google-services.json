@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "142090680532",
+    "firebase_url": "https://toutes-mes-ordonnances.firebaseio.com",
+    "project_id": "toutes-mes-ordonnances",
+    "storage_bucket": "toutes-mes-ordonnances.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142090680532:android:d186e6ffab6a9cae",
+        "android_client_info": {
+          "package_name": "com.toutesmesordonnances.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142090680532-lbl3078cvd37g1dq5mghflstvus5bks5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_zt8oDbkgzmU0wASbkCSpBxTBp0MeQUM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
