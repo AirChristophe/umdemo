@@ -22,10 +22,10 @@
       "resizeMode": "cover"
     },
     "ios": {
-      "bundleIdentifier": "com.umdemo.app"
+      "bundleIdentifier": "com.demoum.app"
     },
     "android": {
-      "package": "com.umdemo.app",
+      "package": "com.demoum.app",
       "versionCode": 10001,
       "config": {
         "googleMaps": {

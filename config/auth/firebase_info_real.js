@@ -1,10 +1,10 @@
 export const firebaseConfig = {
-    apiKey: "AIzaSyBwwsPQpZzRUxrIs0megxtiYqKOwu-XhJo",
-    authDomain: "umdemo-69b88.firebaseapp.com",
-    databaseURL: "https://umdemo-69b88.firebaseio.com",
-    projectId: "umdemo-69b88",
-    storageBucket: "umdemo-69b88.appspot.com",
-    messagingSenderId: "640914954695"
+    apiKey: "AIzaSyDYkcj3vHfu1yr8T8wqVL49rL3yKiLDJbY",
+    authDomain: "demoum-32b55.firebaseapp.com",
+    databaseURL: "https://demoum-32b55.firebaseio.com",
+    projectId: "demoum-32b55",
+    storageBucket: "demoum-32b55.appspot.com",
+    messagingSenderId: "98884286826"
 };
 
 

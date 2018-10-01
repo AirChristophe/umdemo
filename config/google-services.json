@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "640914954695",
-    "firebase_url": "https://umdemo-69b88.firebaseio.com",
-    "project_id": "umdemo-69b88",
-    "storage_bucket": "umdemo-69b88.appspot.com"
+    "project_number": "98884286826",
+    "firebase_url": "https://demoum-32b55.firebaseio.com",
+    "project_id": "demoum-32b55",
+    "storage_bucket": "demoum-32b55.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:640914954695:android:8e8b1f088d0e4b0c",
+        "mobilesdk_app_id": "1:98884286826:android:96d3c95b4c0bd008",
         "android_client_info": {
-          "package_name": "com.umdemo.app"
+          "package_name": "com.demoum.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "640914954695-da0nqch1mgoin4jmtu3tspa7bq26tugh.apps.googleusercontent.com",
+          "client_id": "98884286826-gvgpgdppj8jvrt7ag1cmlf4cqjl4lqbq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBjH7p9Uw-ROwrJO6cOdXLIwCQJOgM88Xs"
+          "current_key": "AIzaSyBcrJQZqHMvGWKIUNe_589V5Q0Mqv3hF7Y"
         }
       ],
       "services": {
