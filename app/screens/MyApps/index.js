@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isNetwork from 'umdemo/utils/isNetwork';
 import NoNetwork from 'app/components/NoNetwork';
-import { View, StyleSheet } from 'react-native';
+import { AsyncStorage, View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { AuthSession, Constants } from 'expo';
 import Header from 'app/components/Header';
@@ -17,17 +17,14 @@ class MyApps extends React.Component {
         this.state = {
             loading: false,
             data: false,
-            result: false,
+            strava: false,
         };
         this.connectStrava = this.connectStrava.bind(this);
     }
 
     connectStrava = async () => {
-        console.log(777777);
+        const { auth } = this.props;
         let redirectUrl = AuthSession.getRedirectUrl();
-        console.log(redirectUrl);
-        // alert(redirectUrl);
-        console.log(8888888);
         let result = await AuthSession.startAsync({
             authUrl:
             `https://www.strava.com/oauth/authorize` +
@@ -39,17 +36,53 @@ class MyApps extends React.Component {
         // console.log(JSON.parse(result));
         // console.log(result.params);
         // console.log(result.params.code);
-        this.setState({ result });
+        this.setState({ strava: result });
+
+        try {
+            await AsyncStorage.setItem('strava', result.params.code);
+        } catch (error) {
+            console.log(error);
+        }
+
+        console.log(77788999);
+        console.log(auth.user.uid);
+
+        const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${result.params.code}`;
+        console.log(url);
+
+        const response = await fetch(url);
+
+    }
+
+    disconnectStrava = async () => {
+
+        const token = await AsyncStorage.getItem('strava');
+        await AsyncStorage.removeItem('strava');
+
+
+        const response = await fetch('https://www.strava.com/oauth/deauthorize', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              token: token
+            })
+          }
+        );
+
+        this.setState({ strava: false });
     }
     
     code() {
-        const { result } = this.state;
+        const { strava } = this.state;
 
-        if (result) {
+        if (strava) {
             console.log(111);
-            console.log(result);
-            console.log(result.params);
-            return `token => ${result.params.code}`;
+            console.log(strava);
+            console.log(strava.params);
+            return `token => ${strava.params.code}`;
         }
         console.log(222);
         return '';
@@ -59,8 +92,7 @@ class MyApps extends React.Component {
     render() {
         const { app } = this.props;
         
-        const { loading } = this.state;
-
+        const { strava, loading } = this.state;
 
         if (!isNetwork(app.isNetwork)) {
             return <NoNetwork />;
@@ -89,16 +121,33 @@ class MyApps extends React.Component {
             />
             <View style={styles.container}>
 
-                <Button
-                    title='Connect strava' 
-                    buttonStyle={styles.strava}
-                    onPress={this.connectStrava}
-                    containerViewStyle={{width: '100%', marginLeft: 0}}
-                    // onPress={() => this.props.navigation.navigate('Reset')}
-                />
+                {
+                    strava ? 
+                    (<View>
+                        <Button
+                            title='strava connected' 
+                            buttonStyle={styles.strava}
+                            onPress={this.connectStrava}
+                        />
+                        <Button
+                            title='Disconnect strava' 
+                            buttonStyle={styles.strava}
+                            onPress={this.disconnectStrava}
+                        />                     
+                    </View>) :
+                    <Button
+                        title='Connect strava' 
+                        buttonStyle={styles.strava}
+                        onPress={this.connectStrava}
+                    />
+
+                }
+
                 <View>
                     <Text>
-                        { this.code() }
+                        { 
+                            //this.code() 
+                        }
                     </Text>
                 </View>
 
@@ -119,20 +168,22 @@ class MyApps extends React.Component {
     container: {
       flex: 1,
       backgroundColor: '#f3f3f3',
-      alignItems: 'center', 
+      alignItems: 'center',
       height: '100%',
       width: '100%',
     },
     strava: {
         backgroundColor: '#ea4a33',
-        margin: 20,
-        padding: 10, 
+        margin: 10,
+        paddingLeft: 50,  
+        paddingRight: 50,  
     }
   });
 
 
 const mapStateToProps = state => ({
   app: state.app,
+  auth: state.auth,
 });
 
 function mapDispatchToProps(dispatch) {
