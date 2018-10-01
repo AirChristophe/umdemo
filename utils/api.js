@@ -1,7 +1,63 @@
 import firebase from 'firebase';
 import uuidGenerator from 'umdemo/utils/uuid';
 import moment from 'moment';
-import { logError } from 'umdemo/utils/logSentry';
+// import { logError } from 'umdemo/utils/logSentry';
+
+
+
+export async function getMyActivities(uid) {
+    const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=GET_MY_ACTIVITIES&id=${uid}`;
+    try {
+        let response = await fetch(
+            url, {
+                method: 'GET',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                },
+            }
+        );
+        console.log(url);
+        
+        let responseJson = await response.json();
+        console.log(responseJson);
+        return responseJson;
+      }
+      catch (error) {
+        alert(JSON.stringify(error));
+        // logError(error, 'api getPrescriptions');
+        return false;
+      }
+}
+
+export async function getProviders(uid) {
+    // console.log('getProviders');
+    // console.log(uid);
+    const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=GET_PROVIDERS&id=${uid}`;
+    try {
+        let response = await fetch(
+            url, {
+                method: 'GET',
+                headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                },
+            }
+        );
+        console.log(1111);
+        console.log(url);
+        
+        let responseJson = await response.json();
+        console.log(responseJson);
+        return responseJson;
+      }
+      catch (error) {
+        alert(JSON.stringify(error));
+        // logError(error, 'api getPrescriptions');
+        return false;
+      }
+}
+
 
 export const getAuthUser = () => {
     return firebase.auth().currentUser;
@@ -32,7 +88,7 @@ export async function addPrescription(data) {
       }
       catch (error) {
         alert(JSON.stringify(error));
-        logError(error, 'api addPrescription');
+        // logError(error, 'api addPrescription');
         return false;
       }
 }
@@ -58,7 +114,7 @@ export async function getPrescriptions(uid) {
       }
       catch (error) {
         alert(JSON.stringify(error));
-        logError(error, 'api getPrescriptions');
+        // logError(error, 'api getPrescriptions');
         return false;
       }
 }
@@ -84,7 +140,7 @@ export async function getDetail(uid) {
       }
       catch (error) {
         alert(JSON.stringify(error));
-        logError(error, 'api getDetail');
+        // logError(error, 'api getDetail');
         return false;
       }
 }

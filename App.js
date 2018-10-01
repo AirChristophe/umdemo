@@ -19,7 +19,7 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log(' SIGNED !');
-    console.log(user);
+    // console.log(user);
     // user.sendEmailVerification(); 
     store.dispatch(loginSuccess({user}));
   } else {

@@ -1,1 +1,3 @@
 export const STATUS_CHANGE = 'STATUS_CHANGE';
+export const SET_PROVIDERS = 'SET_PROVIDERS';
+export const TOKEN_CHANGE = 'TOKEN_CHANGE';

@@ -39,7 +39,6 @@ function appReducer(state = INITIAL_STATE, action) {
       return { ...state, error: action.payload };
     }
     case LOGOUT_SUCCESS: {
-      console.log(8888);
       return { loginStatus: 'initial', ...RESET_STATE };
     }
     case LOGIN_SUCCESS: {

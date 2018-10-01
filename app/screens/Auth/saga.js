@@ -1,6 +1,10 @@
 import firebase from 'firebase';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { SIGNUP_REQUEST } from './constants';
+import { delay } from 'redux-saga';
+import * as api from 'umdemo/utils/api';
+import { SIGNUP_REQUEST, LOGIN_SUCCESS } from './constants';
+import { TOKEN_CHANGE } from '../App/constants';
+import { setProviders } from '../App/actions';
 
 // import request from 'utils/request';
 // import { makeSelectUsername } from 'containers/HomePage/selectors';
@@ -51,6 +55,29 @@ export function* signup(action) {
   }
 }
 
+export function* loginSuccess(action) {
+    console.log( 'SAGAS LOGIN SUCCESS' );
+    const result = yield call(api.getProviders, action.payload.user.uid);
+
+    yield put(setProviders(result));
+}
+
+
+export function* tokenChange(action) {
+    console.log( 'SAGAS TOKEN CHANGE' );
+    console.log( action);
+    // yield call(delay, 3000);
+    const result = yield call(api.getProviders, action.payload);
+
+    yield put(setProviders(result));
+}
+
+
+
 export default function* watcherSagas() {
   yield takeLatest(SIGNUP_REQUEST, signup);
+  yield takeLatest(LOGIN_SUCCESS, loginSuccess);
+
+  yield takeLatest(TOKEN_CHANGE, tokenChange);
+  
 }

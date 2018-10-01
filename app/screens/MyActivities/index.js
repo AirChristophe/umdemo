@@ -8,6 +8,7 @@ import { Text } from 'react-native-elements';
 import { Constants } from 'expo';
 import Header from 'app/components/Header';
 import Loading from 'app/components/Loading';
+import * as api from 'umdemo/utils/api';
 
 class MyActivities extends React.Component {
 
@@ -16,13 +17,23 @@ class MyActivities extends React.Component {
 
         this.state = {
             loading: false,
-            data: false,
+            datas: false,
         };
+    }
+
+    componentDidMount = async() => {
+        const result = await api.getMyActivities(this.props.auth.user.uid);
+        console.log(111);
+        console.log(result);
+        this.setState({
+            datas: result,
+            loading: false,
+        });
     }
 
     render() {
         const { app } = this.props;
-        const { loading } = this.state;
+        const { loading, datas } = this.state;
 
         if (!isNetwork(app.isNetwork)) {
             return <NoNetwork />;
@@ -42,6 +53,10 @@ class MyActivities extends React.Component {
             );           
         }
 
+        if (!datas) {
+            return false;           
+        }
+
 
       return (
         <View style={styles.root}>
@@ -51,9 +66,19 @@ class MyActivities extends React.Component {
             />
             <View style={styles.container}>
 
-                <Text>
-                aaaaaaaa
-                </Text>
+
+
+            {
+                datas.map(activity => {
+                    return (
+                        <View style={styles.item}>
+                            <Text>name: {activity.name}</Text>
+                            <Text>start_time: {activity.start_time}</Text>
+                        </View>
+                    );
+                })
+            }
+
 
             </View>   
         </View>
@@ -76,11 +101,15 @@ class MyActivities extends React.Component {
       height: '100%',
       width: '100%',
     },
+    item: {
+        margin: 15,
+    },
   });
 
 
 const mapStateToProps = state => ({
   app: state.app,
+  auth: state.auth,
 });
 
 function mapDispatchToProps(dispatch) {
