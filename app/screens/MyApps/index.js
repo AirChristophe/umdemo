@@ -22,6 +22,11 @@ class MyApps extends React.Component {
         this.connectStrava = this.connectStrava.bind(this);
     }
 
+    componentWillMount = async () => {
+        const token = await AsyncStorage.getItem('strava');
+        this.setState({ strava: token });
+    }
+
     connectStrava = async () => {
         const { auth } = this.props;
         let redirectUrl = AuthSession.getRedirectUrl();
@@ -34,9 +39,7 @@ class MyApps extends React.Component {
         });
         console.log(result);
         // console.log(JSON.parse(result));
-        // console.log(result.params);
-        // console.log(result.params.code);
-        this.setState({ strava: result });
+        this.setState({ strava: result.params.code });
 
         try {
             await AsyncStorage.setItem('strava', result.params.code);
@@ -81,8 +84,7 @@ class MyApps extends React.Component {
         if (strava) {
             console.log(111);
             console.log(strava);
-            console.log(strava.params);
-            return `token => ${strava.params.code}`;
+            return `token => ${strava}`;
         }
         console.log(222);
         return '';
