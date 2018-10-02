@@ -18,7 +18,7 @@ function appReducer(state = initialState, action) {
     }
     case SET_PROVIDERS: {
         console.log('REDUCER SET_PROVIDERS');
-        console.log(action.payload);
+        // console.log(action.payload);
         // return { providers: action.payload };
         return { ...state, providers: action.payload, rand: Math.floor(Math.random() * Math.floor(10000)) };
     }

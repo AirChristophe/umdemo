@@ -6,6 +6,7 @@ import Drawer from 'app/screens/Navigation/Drawer';
 
 import MyApps from 'app/screens/MyApps';
 import MyActivities from 'app/screens/MyActivities';
+import Detail from 'app/screens/Detail';
 
 import Login from 'app/screens/Auth/Login';
 import Reset from 'app/screens/Auth/Reset';
@@ -19,6 +20,7 @@ const RootStack = createStackNavigator(
         Drawer: Drawer,
         MyApps: MyApps,
         MyActivities: MyActivities,
+        Detail: Detail,
     },
     {
       initialRouteName: 'Drawer',

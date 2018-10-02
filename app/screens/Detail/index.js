@@ -3,14 +3,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isNetwork from 'umdemo/utils/isNetwork';
 import NoNetwork from 'app/components/NoNetwork';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, ScrollView, WebView } from 'react-native';
 import { Text } from 'react-native-elements';
 import { Constants } from 'expo';
 import Header from 'app/components/Header';
 import Loading from 'app/components/Loading';
-import * as api from 'umdemo/utils/api';
 
-class MyActivities extends React.Component {
+class Detail extends React.Component {
 
     constructor(props) {
         super(props);
@@ -21,23 +20,15 @@ class MyActivities extends React.Component {
         };
     }
 
-    componentDidMount = async() => {
-        const result = await api.getMyActivities(this.props.auth.user.uid);
-        console.log(111);
-        console.log(result);
-        this.setState({
-            datas: result,
-            loading: false,
-        });
-    }
-
-    _onPress(activity) {
-        this.props.navigation.navigate('Detail', { activity: activity });
-    }
-
     render() {
         const { app } = this.props;
         const { loading, datas } = this.state;
+
+        const { navigation } = this.props;
+        const activity = navigation.getParam('activity', {});
+
+        console.log(112233);
+        console.log(activity);
 
         if (!isNetwork(app.isNetwork)) {
             return <NoNetwork />;
@@ -48,7 +39,7 @@ class MyActivities extends React.Component {
                 <View style={styles.root}>
                 <Header
                     onPress={() => this.props.navigation.goBack()}
-                    text="My Activities"
+                    text="Detail"
                 />
                 <View style={styles.container}>
                     <Loading />
@@ -57,36 +48,24 @@ class MyActivities extends React.Component {
             );           
         }
 
-        if (!datas) {
-            return false;           
-        }
-
-
       return (
         <View style={styles.root}>
             <Header
                 onPress={() => this.props.navigation.goBack()}
-                text="My Activities"
+                text="Detail"
             />
             <View style={styles.container}>
-                <ScrollView>
-
                 <View style={styles.list}>
-                {
-                    datas.map(activity => {
-                        return (
-                            <TouchableOpacity onPress={() => this._onPress(activity)}>
-                                <View style={styles.item}>
-                                    <Text>provider: {activity.provider_name}</Text>
-                                    <Text>sport: {activity.name}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        );
-                    })
-                }
+                    <Text>id {activity.id}</Text>
+                    <Text>id {activity.name}</Text>
+                    <Text>id {activity.provider_name}</Text>
+                    <Text>id {activity.start_time}</Text>
+                                
                 </View>
-
-                </ScrollView>
+                <WebView
+                    source={{uri: 'https://github.com/facebook/react-native'}}
+                    style={{marginTop: 20}}
+                />
             </View>   
         </View>
       );
@@ -103,17 +82,12 @@ class MyActivities extends React.Component {
     },
     container: {
       flex: 1,
-      // backgroundColor: 'green',
-      //alignItems: 'center', 
       height: '100%',
       width: '100%',
     },
-    item: {
-        margin: 15,
-    },
     list: {
-
-    },
+        padding: 10,
+      },
   });
 
 
@@ -134,4 +108,4 @@ const withConnect = connect(
 
 export default compose(
   withConnect,
-)(MyActivities);
+)(Detail);

@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isNetwork from 'umdemo/utils/isNetwork';
 import NoNetwork from 'app/components/NoNetwork';
-import { AsyncStorage, View, StyleSheet } from 'react-native';
+import { AsyncStorage, Image, View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { AuthSession, Constants } from 'expo';
 import Header from 'app/components/Header';
@@ -193,7 +193,8 @@ class MyApps extends React.Component {
                         return (
                             <View style={styles.list}>
                                 <View style={styles.left}>
-                                    <Text>{provider.name}</Text>
+                                <Image source={{uri: provider.image}}
+                                    style={{width: 60, height: 60}} />
                                 </View>
                                 <View style={styles.right}>
                                     {this.getButton(provider)}
