@@ -23,6 +23,8 @@ class MyApps extends React.Component {
         this.connectStrava = this.connectStrava.bind(this);
         this.disconnectApi = this.disconnectApi.bind(this);
         this.connectApi = this.connectApi.bind(this);
+        this.clientId = 28916;
+        this.clientSecret = '4cc3dd3fb46d11e39c82c25860d4869a9f4ca0bf';
         
     }
     /*
@@ -32,39 +34,57 @@ class MyApps extends React.Component {
     }
     */
 
-    connectStrava1 = async () => {
-        console.log('connectStrava');
-        const { auth } = this.props;
-        let redirectUrl = AuthSession.getRedirectUrl();
-        const response = await AuthSession.startAsync({
-            authUrl:
-            `https://www.strava.com/oauth/authorize` +
-            `?client_id=28916` +
-            `&response_type=code` +
-            `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
-        });
-        console.log(result);
-        const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${result.params.code}`;
-        console.log(url);
-        const response1 = await fetch(url);
-        // this.props.onTokenChange(auth.user.uid);
-
-    }
 
     connectStrava = async () => {
         const { auth } = this.props;
         let redirectUrl = AuthSession.getRedirectUrl();
+        const authUrl = `https://www.strava.com/oauth/authorize` +
+        `?client_id=${this.clientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${encodeURIComponent(redirectUrl)}`;
+
+        // console.log(11111111111);
+        // console.log(authUrl);
+
         const result = await AuthSession.startAsync({
-            authUrl:
-            `https://www.strava.com/oauth/authorize` +
-            `?client_id=28916` +
-            `&response_type=code` +
-            `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
+            authUrl: authUrl,
         });
 
+        // console.log(22222222);
+        // console.log(result);
+
+
         if (result) {
-            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${result.params.code}`;
-            console.log(url);
+
+            const tokenUrl = 'https://www.strava.com/oauth/token';
+            const params = {
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
+                code: result.params.code
+            };
+
+
+            let result1 = await fetch(
+                tokenUrl, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params),
+                }
+            );
+            // console.log(222233333);
+            // console.log(result1);
+            let responseJson = await result1.json();
+            // console.log(responseJson);
+
+            // console.log(333333333);
+            // console.log(tokenUrl);
+            // console.log(responseJson);
+
+            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+            // console.log(url);
 
             const response = await fetch(url);
             if (response) {
