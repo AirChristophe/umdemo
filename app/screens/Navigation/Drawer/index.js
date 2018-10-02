@@ -31,7 +31,7 @@ export default createDrawerNavigator({
             drawerLabel: 'My Profile',
             drawerIcon: () => (
               <Icon
-                  name='ticket'
+                  name='user'
                   type='font-awesome'
                   size={24}
                   color={colors.main}
@@ -45,7 +45,7 @@ export default createDrawerNavigator({
             drawerLabel: 'My Apps',
             drawerIcon: () => (
               <Icon
-                  name='ticket'
+                  name='th-large'
                   type='font-awesome'
                   size={24}
                   color={colors.main}
@@ -59,8 +59,8 @@ export default createDrawerNavigator({
             drawerLabel: 'My Activities',
             drawerIcon: () => (
               <Icon
-                  name='file-o'
-                  type='font-awesome'
+                  name='activity'
+                  type='feather'
                   size={24}
                   color={colors.main}
               />
