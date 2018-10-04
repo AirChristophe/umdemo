@@ -77,8 +77,8 @@ class MyActivities extends React.Component {
                         return (
                             <TouchableOpacity onPress={() => this._onPress(activity)}>
                                 <View style={styles.item}>
-                                    <Text>provider: {activity.provider_name}</Text>
-                                    <Text>sport: {activity.name}</Text>
+                                    <Text>Source: {activity.provider_name} / Sport : {activity.sport_name}</Text>
+                                    <Text>{activity.start_time} - {activity.name}</Text>
                                 </View>
                             </TouchableOpacity>
                         );

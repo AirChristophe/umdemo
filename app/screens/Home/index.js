@@ -34,7 +34,8 @@ class Home extends React.Component {
             <View style={styles.container}>
 
                 <View>
-                    <Text style={styles.title}>HOME</Text>
+                    <Text style={styles.title}>UM DEMO</Text>
+                    <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>
                 </View>
 
             </View>
@@ -69,6 +70,17 @@ const styles = StyleSheet.create({
         // backgroundColor: '#FFFFFF',
     }, 
     title: {
+        flex: 1,
+        flexDirection: 'row',        
+        maxHeight: 40,
+        alignItems: 'center',
+    }, 
+    text: {
+        flex: 1,
+        flexDirection: 'row',
+        maxHeight: 40,
+        alignItems: 'center',
+        // backgroundColor: '#FFFFFF',
     }, 
 });
 
