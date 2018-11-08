@@ -75,7 +75,7 @@ class MyActivities extends React.Component {
                 {
                     datas.map(activity => {
                         return (
-                            <TouchableOpacity onPress={() => this._onPress(activity)}>
+                            <TouchableOpacity key={activity.id} onPress={() => this._onPress(activity)}>
                                 <View style={styles.item}>
                                     <Text>Source: {activity.provider_name} / Sport : {activity.sport_name}</Text>
                                     <Text>{activity.start_time} - {activity.name}</Text>

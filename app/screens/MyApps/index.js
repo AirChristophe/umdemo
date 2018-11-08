@@ -211,7 +211,7 @@ class MyApps extends React.Component {
                 {
                     app.providers.map(provider => {
                         return (
-                            <View style={styles.list}>
+                            <View key={provider.id} style={styles.list}>
                                 <View style={styles.left}>
                                 <Image source={{uri: provider.image}}
                                     style={{width: 60, height: 60}} />

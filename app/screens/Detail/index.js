@@ -57,13 +57,13 @@ class Detail extends React.Component {
             <View style={styles.container}>
                 <View style={styles.list}>
                     <Text>id {activity.id}</Text>
-                    <Text>id {activity.name}</Text>
-                    <Text>id {activity.provider_name}</Text>
-                    <Text>id {activity.start_time}</Text>
+                    <Text>name {activity.name}</Text>
+                    <Text>provider_name {activity.provider_name}</Text>
+                    <Text>start_time {activity.start_time}</Text>
                                 
                 </View>
                 <WebView
-                    source={{uri: 'https://github.com/facebook/react-native'}}
+                    source={{uri: 'http://dev-player.georacing.com/dyn/um/map'}}
                     style={{marginTop: 20}}
                 />
             </View>   
