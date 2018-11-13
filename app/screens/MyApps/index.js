@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isNetwork from 'umdemo/utils/isNetwork';
 import NoNetwork from 'app/components/NoNetwork';
-import { AsyncStorage, Image, View, StyleSheet } from 'react-native';
+import { AsyncStorage, Image, View, ScrollView, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { AuthSession, Constants } from 'expo';
 import Header from 'app/components/Header';
@@ -19,13 +19,33 @@ class MyApps extends React.Component {
             loading: false,
             data: false,
             strava: false,
+            garmin: false,
+            mapMyRun: false,
+            fitbit: false
         };
-        this.connectStrava = this.connectStrava.bind(this);
-        this.disconnectApi = this.disconnectApi.bind(this);
+
         this.connectApi = this.connectApi.bind(this);
-        this.clientId = 28916;
-        this.clientSecret = '4cc3dd3fb46d11e39c82c25860d4869a9f4ca0bf';
-        
+        this.disconnectApi = this.disconnectApi.bind(this);
+
+        this.connectStrava = this.connectStrava.bind(this);
+        this.disconnectStrava = this.disconnectStrava.bind(this);
+        this.stravaClientId = 28916;
+        this.stravaClientSecret = '4cc3dd3fb46d11e39c82c25860d4869a9f4ca0bf';
+
+        this.connectGarmin = this.connectGarmin.bind(this);
+        this.disconnectGarmin = this.disconnectGarmin.bind(this);
+        this.garminClientId = 12345; //obtenir un vrai id
+        this.garminClientSecret = 'xxxx'; //obtenir une vraie clé
+
+        this.connectMapMyRun = this.connectMapMyRun.bind(this);
+        this.disconnectMapMyRun = this.disconnectMapMyRun.bind(this);
+        this.mapMyRunClientId = 12345; //obtenir un vrai id
+        this.mapMyRunClientSecret = 'xxxx'; //obtenir une vraie clé
+
+        this.connectFitbit = this.connectFitbit.bind(this);
+        this.disconnectFitbit = this.disconnectFitbit.bind(this);
+        this.fitbitClientId = '22D5K4'; //obtenir un vrai id
+        this.fitbitClientSecret = 'd8ff40394d01c60b538ba92acfbf81b1'; //obtenir une vraie clé
     }
     /*
     componentWillMount = async () => {
@@ -34,17 +54,230 @@ class MyApps extends React.Component {
     }
     */
 
+    connectGarmin= async() => {
+        const { auth } = this.props;
+        let redirectUrl = AuthSession.getRedirectUrl();
+        const authUrl = `https://www.fitbit.com/oauth2/authorize/` +
+        `?client_id=${this.garminClientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${encodeURIComponent(redirectUrl)}`;
+
+        const result = await AuthSession.startAsync({
+            authUrl: authUrl,
+        });
+
+        if (result) {
+
+            console.log("garmin result");
+            const tokenUrl = 'https://api.fitbit.com/oauth2/token';
+            const params = {
+                client_id: this.garminClientId,
+                client_secret: this.garminClientSecret,
+                code: result.params.code
+            };
+
+            let result1 = await fetch(
+                tokenUrl, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params),
+                }
+            );
+
+            let responseJson = await result1.json();
+
+            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+
+            const response = await fetch(url);
+            if (response) {
+                this.props.onTokenChange(auth.user.uid);
+            }
+        }
+    }
+
+    disconnectGarmin= async(token) => {
+
+    }
+
+    connectFitbit= async() => {
+        const { auth } = this.props;
+
+        let redirectUrl = AuthSession.getRedirectUrl();
+        console.log('redirectUrl'); console.log(redirectUrl);
+
+        //redirectUrl = 'https://player.georacing.com/';
+        //https%3A%2F%2Fplayer.georacing.com%2F
+
+        /*const authUrl = `https://www.fitbit.com/oauth2/authorize/` +
+        `?client_id=${this.fitbitClientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${encodeURIComponent(redirectUrl)}`;*/
+
+        const authUrl = `https://www.fitbit.com/oauth2/authorize/` +
+        `?client_id=${this.fitbitClientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${encodeURIComponent(redirectUrl)}` + 
+        `&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight` + 
+        `&expires_in=604800`;
+
+        console.log('authUrl'); console.log(authUrl);
+
+        const result = await AuthSession.startAsync({
+            authUrl: authUrl,
+        });
+
+        if (result) {
+
+            console.log("fitbit result");
+            console.log(result);
+
+            const tokenUrl = 'https://api.fitbit.com/oauth2/token';
+            const params = {
+                client_id: this.fitbitClientId,
+                client_secret: this.fitbitClientSecret,
+                code: result.params.code
+            };
+
+            let result1 = await fetch(
+                tokenUrl, {
+                    method: 'POST',
+                    /*headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },*/
+                    body: JSON.stringify(params),
+                }
+            );
+
+            let responseJson = await result1.json();
+
+            console.log("responseJson");
+            console.log(responseJson);
+
+            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+
+            const response = await fetch(url);
+            if (response) {
+                this.props.onTokenChange(auth.user.uid);
+            }
+        }
+    }
+
+    disconnectFitbit= async(token) => {
+        const { auth } = this.props;
+            const result = await fetch('https://api.fitbit.com/oauth2/revoke', { //todo: à voir si l'addresse fonctionne
+                method: 'POST',
+                headers: {
+                  'Authorization': 'Basic '+this.mapMyRunClientId+this.mapMyRunClientSecret,
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'token='+token
+              }
+            );
+            if (result) {
+                const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
+                console.log(url);
+                const response = await fetch(url);
+                if (response) {
+                    this.props.onTokenChange(auth.user.uid);
+                }
+            }
+        }
+    
+        code() {
+            const { mapMyRun } = this.state;
+
+            if (mapMyRun) {
+                console.log(mapMyRun);
+                return `token => ${mapMyRun}`;
+        }
+        return '';
+    }
+
+    connectMapMyRun = async() => {
+        const { auth } = this.props;
+        let redirectUrl = AuthSession.getRedirectUrl();
+        const authUrl = `https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/` +
+        `?client_id=${this.mapMyRunClientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${encodeURIComponent(redirectUrl)}`;
+
+        const result = await AuthSession.startAsync({
+            authUrl: authUrl,
+        });
+
+        if (result) {
+
+            console.log("mapmyrun result");
+            const tokenUrl = 'https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token/';
+            const params = {
+                client_id: this.mapMyRunClientId,
+                client_secret: this.mapMyRunClientSecret,
+                code: result.params.code
+            };
+
+            let result1 = await fetch(
+                tokenUrl, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params),
+                }
+            );
+
+            let responseJson = await result1.json();
+
+            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+
+            const response = await fetch(url);
+            if (response) {
+                this.props.onTokenChange(auth.user.uid);
+            }
+        }
+    }
+
+    disconnectMapMyRun = async (token) => {
+        const { auth } = this.props;
+        const result = await fetch('https://www.mapmyfitness.com/v7.1/oauth2/connection/' + 
+                                    `?user_id=${token}` +
+                                    `?client_id=${this.mapMyRunClientId}`, { //todo: à voir si l'addresse fonctionne
+            method: 'DELETE'
+          }
+        );
+        if (result) {
+            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
+            console.log(url);
+            const response = await fetch(url);
+            if (response) {
+                this.props.onTokenChange(auth.user.uid);
+            }
+        }
+    }
+    
+    code() {
+        const { mapMyRun } = this.state;
+
+        if (mapMyRun) {
+            console.log(mapMyRun);
+            return `token => ${mapMyRun}`;
+        }
+        return '';
+
+    }
+
 
     connectStrava = async () => {
         const { auth } = this.props;
         let redirectUrl = AuthSession.getRedirectUrl();
         const authUrl = `https://www.strava.com/oauth/authorize` +
-        `?client_id=${this.clientId}` +
+        `?client_id=${this.stravaClientId}` +
         `&response_type=code` +
         `&redirect_uri=${encodeURIComponent(redirectUrl)}`;
-
-        // console.log(11111111111);
-        // console.log(authUrl);
 
         const result = await AuthSession.startAsync({
             authUrl: authUrl,
@@ -58,8 +291,8 @@ class MyApps extends React.Component {
 
             const tokenUrl = 'https://www.strava.com/oauth/token';
             const params = {
-                client_id: this.clientId,
-                client_secret: this.clientSecret,
+                client_id: this.stravaClientId,
+                client_secret: this.stravaClientSecret,
                 code: result.params.code
             };
 
@@ -119,11 +352,17 @@ class MyApps extends React.Component {
     
     code() {
         const { strava } = this.state;
+        const { fitbit } = this.state;
 
         if (strava) {
             console.log(111);
             console.log(strava);
             return `token => ${strava}`;
+        }
+        if (fitbit) {
+            console.log(222);
+            console.log(fitbit);
+            return `token => ${fitbit}`;
         }
         console.log(222);
         return '';
@@ -140,6 +379,15 @@ class MyApps extends React.Component {
                 console.log(77);
                 await this.connectStrava();
               break;
+            case "2":
+                await this.connectGarmin();
+              break;
+            case "5":
+                await this.connectMapMyRun();
+              break;
+            case "6":
+                await this.connectFitbit();
+              break;
             default:
               return false;
         }
@@ -153,6 +401,15 @@ class MyApps extends React.Component {
             case "1":
                 console.log(88);  
                 await this.disconnectStrava(provider.token);
+              break;
+            case "3":
+                await this.disconnectGarmin(provider.token);
+              break;
+            case "5":
+                await this.disconnectMapMyRun(provider.token);
+              break;
+            case "6":
+                await this.disconnectFitbit(provider.token);
               break;
             default:
               return false;
@@ -175,7 +432,7 @@ class MyApps extends React.Component {
         console.log(rand);
         console.log(app);
         
-        const { strava, loading } = this.state;
+        const { strava, mapMyRun, fitbit, loading } = this.state;
 
         if (!isNetwork(app.isNetwork)) {
             return <NoNetwork />;
@@ -206,27 +463,30 @@ class MyApps extends React.Component {
 
 
 
-                <View>
+                <ScrollView>
 
                 {
                     app.providers.map(provider => {
-                        return (
-                            <View key={provider.id} style={styles.list}>
-                                <View style={styles.left}>
-                                <Image source={{uri: provider.image}}
-                                    style={{width: 60, height: 60}} />
+                        if( provider.id != 2 && provider.id != 4) //JB: ceci est un test car les app 2 et 4 n'on pas de connecteur pour le moment
+                        {
+                            return (
+                                <View key={provider.id} style={styles.list}>
+                                    <View style={styles.left}>
+                                        <Image source={{uri: provider.image}} style={styles.image} />
+                                        <Text style={styles.text}>{provider.name}</Text>
+                                    </View>
+                                    <View style={styles.center}>
+
+                                    </View>
+                                    <View style={styles.right}>
+                                        {this.getButton(provider)}
+                                    </View>                              
                                 </View>
-                                <View style={styles.right}>
-                                    {this.getButton(provider)}
-                                    
-                                </View>                             
-                                
-                                
-                            </View>
-                        );
+                            );
+                        }
                     })
                 }
-                </View>
+                </ScrollView>
 
             </View>   
         </View>
@@ -253,16 +513,29 @@ class MyApps extends React.Component {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center', 
-        justifyContent: 'flex-start',
+        //justifyContent: 'flex-start',
         // alignItems: 'left',
-        height: 100, 
+        height: 100,
     },
     left: {
-       width: 200, 
+       width: 74, 
+       justifyContent: 'center',
+       alignItems: 'center', 
+    },
+    center: {
+        width:130
     },
     right: {
        //  height: 200, 
     },
+    image: {
+        width: 60, 
+        height: 60
+    },
+    text: {
+        textAlign: 'center',
+        //backgroundColor: '#0000ff',
+    }
   });
 
 

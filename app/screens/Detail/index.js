@@ -63,7 +63,7 @@ class Detail extends React.Component {
                                 
                 </View>
                 <WebView
-                    source={{uri: 'http://dev-player.georacing.com/dyn/um/map'}}
+                    source={{uri: 'http://dev-player.georacing.com/dyn/um/map?id='+activity.id}}
                     style={{marginTop: 20}}
                 />
             </View>   

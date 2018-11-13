@@ -6,7 +6,7 @@ import {
     connect
   } from 'react-redux';
 
-import { View, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 import { Icon, Text } from 'react-native-elements';
 import { Constants } from 'expo';
 
@@ -32,18 +32,21 @@ class Home extends React.Component {
                 />
             </View>
             <View style={styles.container}>
-
-                <View>
-                    <Text style={styles.title}>UM DEMO</Text>
+                    <Text style={styles.title}>UM DEMO 3</Text>
                     <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>
-                </View>
-
+                    
             </View>
+            
         </View>
       );
     }
   }
   
+//<View style={styles.footer}>
+ //               <Text style={styles.footerText}>Powered by</Text>
+ //              <Image source={require('../../../assets/images/LOGO-GEORACING.png')} style={styles.footerImage} />
+ //           </View>
+
 const styles = StyleSheet.create({
     root: {
         flex: 1,
@@ -73,15 +76,42 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',        
         maxHeight: 40,
-        alignItems: 'center',
+        textAlign: 'center',
     }, 
     text: {
-        flex: 1,
+        //flex: 1,
         flexDirection: 'row',
-        maxHeight: 40,
-        alignItems: 'center',
+        textAlign: 'center',
+        backgroundColor: '#014786',
+        color: '#ffffff',
+        width: '80%',
+        padding: 40,
+        marginBottom: 100
         // backgroundColor: '#FFFFFF',
     }, 
+    image: {
+
+    }, 
+    footer: {
+        flex: 1,
+        position: 'absolute', 
+        left: 0, 
+        right: 0, 
+        bottom: 0,
+        justifyContent: 'center', 
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    footerText: {
+        margin: 10
+    },
+    footerImage: {
+        resizeMode: 'contain',
+        margin: 10,
+        width: 100,
+        height: 20
+    }
 });
 
 const mapStateToProps = state => {
