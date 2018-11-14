@@ -164,7 +164,7 @@ class MyApps extends React.Component {
             console.log("responseJson");
             console.log(responseJson);
 
-            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=${responseJson.access_token}`;
+            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=${responseJson.access_token}&rt=${responseJson.refresh_token}`;
 
             const response = await fetch(url);
             if (response) {
@@ -174,18 +174,21 @@ class MyApps extends React.Component {
     }
 
     disconnectFitbit= async(token) => {
+
+        const AuthBase64 = 'MjJENUs0OmQ4ZmY0MDM5NGQwMWM2MGI1MzhiYTkyYWNmYmY4MWIx';
+
         const { auth } = this.props;
             const result = await fetch('https://api.fitbit.com/oauth2/revoke', { //todo: à voir si l'addresse fonctionne
                 method: 'POST',
                 headers: {
-                  'Authorization': 'Basic '+this.fitbigClientId+this.fitbitClientSecret,
+                  'Authorization': 'Basic '+AuthBase64,
                   'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: 'token='+token
               }
             );
             if (result) {
-                const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
+                const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=null`;
                 console.log(url);
                 const response = await fetch(url);
                 if (response) {
@@ -195,11 +198,11 @@ class MyApps extends React.Component {
         }
     
         code() {
-            const { mapMyRun } = this.state;
+            const { fitbit } = this.state;
 
-            if (mapMyRun) {
-                console.log(mapMyRun);
-                return `token => ${mapMyRun}`;
+            if (fitbit) {
+                console.log(fitbit);
+                return `token => ${fitbit}`;
         }
         return '';
     }
