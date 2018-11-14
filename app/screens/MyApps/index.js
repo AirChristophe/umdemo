@@ -44,8 +44,8 @@ class MyApps extends React.Component {
 
         this.connectFitbit = this.connectFitbit.bind(this);
         this.disconnectFitbit = this.disconnectFitbit.bind(this);
-        this.fitbitClientId = '22D5K4'; //obtenir un vrai id
-        this.fitbitClientSecret = 'd8ff40394d01c60b538ba92acfbf81b1'; //obtenir une vraie clé
+        this.fitbitClientId = '22D5K4'; 
+        this.fitbitClientSecret = 'd8ff40394d01c60b538ba92acfbf81b1';
     }
     /*
     componentWillMount = async () => {
@@ -135,29 +135,36 @@ class MyApps extends React.Component {
             console.log(result);
 
             const tokenUrl = 'https://api.fitbit.com/oauth2/token';
-            const params = {
-                client_id: this.fitbitClientId,
-                client_secret: this.fitbitClientSecret,
-                code: result.params.code
-            };
 
-            let result1 = await fetch(
+            //const Auth = this.fitbitClientId + ':' + this.fitbitClientSecret;
+            const Auth = 'MjJENUs0OmQ4ZmY0MDM5NGQwMWM2MGI1MzhiYTkyYWNmYmY4MWIx';
+
+            console.log("Auth2 : " + Auth);
+            console.log("client_id : " + this.fitbitClientId);
+            console.log("code : " + result.params.code);
+            console.log("redirect_uri : " + encodeURIComponent(redirectUrl));
+
+            const bodyRequest = 'grant_type=authorization_code&client_id='+this.fitbitClientId+'&code='+result.params.code+'&redirect_uri='+encodeURIComponent(redirectUrl)+'&expires_in=604800';
+ 
+            console.log("body : " + bodyRequest);
+
+            let resultFitbit = await fetch(
                 tokenUrl, {
                     method: 'POST',
-                    /*headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },*/
-                    body: JSON.stringify(params),
+                    headers: {
+                        'Authorization': 'Basic '+ Auth,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: bodyRequest,
                 }
-            );
+            );     
 
-            let responseJson = await result1.json();
+            let responseJson = await resultFitbit.json();
 
             console.log("responseJson");
             console.log(responseJson);
 
-            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+            const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=${responseJson.access_token}`;
 
             const response = await fetch(url);
             if (response) {
@@ -171,7 +178,7 @@ class MyApps extends React.Component {
             const result = await fetch('https://api.fitbit.com/oauth2/revoke', { //todo: à voir si l'addresse fonctionne
                 method: 'POST',
                 headers: {
-                  'Authorization': 'Basic '+this.mapMyRunClientId+this.mapMyRunClientSecret,
+                  'Authorization': 'Basic '+this.fitbigClientId+this.fitbitClientSecret,
                   'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: 'token='+token

@@ -32,7 +32,7 @@ class Home extends React.Component {
                 />
             </View>
             <View style={styles.container}>
-                    <Text style={styles.title}>UM DEMO 3</Text>
+                    <Text style={styles.title}>UM DEMO</Text>
                     <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>
                     
             </View>
