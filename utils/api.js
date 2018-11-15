@@ -6,7 +6,7 @@ import moment from 'moment';
 
 
 export async function getMyActivities(uid) {
-    const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=GET_MY_ACTIVITIES&id=${uid}`;
+    const url = `http://um.georacing.com/dyn/action.php?Action=GET_MY_ACTIVITIES&id=${uid}`;
     try {
         let response = await fetch(
             url, {
@@ -33,7 +33,7 @@ export async function getMyActivities(uid) {
 export async function getProviders(uid) {
     // console.log('getProviders');
     // console.log(uid);
-    const url = `http://dev-player.georacing.com/dyn/um/action.php?Action=GET_PROVIDERS&id=${uid}`;
+    const url = `http://um.georacing.com/dyn/action.php?Action=GET_PROVIDERS&id=${uid}`;
     try {
         let response = await fetch(
             url, {

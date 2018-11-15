@@ -36,8 +36,8 @@ class Profile extends React.Component {
       return (
         <View style={styles.root}>
             <Header
-                icon="menu"
-                onPress={() => this.props.navigation.openDrawer()}
+                //icon="menu"
+                onPress={() => this.props.navigation.goBack()}
                 text="Profile"
             />
             <View style={styles.container}>

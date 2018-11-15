@@ -33,19 +33,13 @@ class Home extends React.Component {
             </View>
             <View style={styles.container}>
                     <Text style={styles.title}>UM DEMO</Text>
-                    <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>
-                    
+                    <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>        
             </View>
             
         </View>
       );
     }
   }
-  
-//<View style={styles.footer}>
- //               <Text style={styles.footerText}>Powered by</Text>
- //              <Image source={require('../../../assets/images/LOGO-GEORACING.png')} style={styles.footerImage} />
- //           </View>
 
 const styles = StyleSheet.create({
     root: {
