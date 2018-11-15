@@ -2,11 +2,11 @@ import firebase from 'firebase';
 import uuidGenerator from 'umdemo/utils/uuid';
 import moment from 'moment';
 // import { logError } from 'umdemo/utils/logSentry';
-
+import config from 'umdemo/config';
 
 
 export async function getMyActivities(uid) {
-    const url = `http://um.georacing.com/dyn/action.php?Action=GET_MY_ACTIVITIES&id=${uid}`;
+    const url = `${config.API_URL}/dyn/action.php?Action=GET_MY_ACTIVITIES&id=${uid}`;
     try {
         let response = await fetch(
             url, {
@@ -33,7 +33,7 @@ export async function getMyActivities(uid) {
 export async function getProviders(uid) {
     // console.log('getProviders');
     // console.log(uid);
-    const url = `http://um.georacing.com/dyn/action.php?Action=GET_PROVIDERS&id=${uid}`;
+    const url = `${config.API_URL}/dyn/action.php?Action=GET_PROVIDERS&id=${uid}`;
     try {
         let response = await fetch(
             url, {

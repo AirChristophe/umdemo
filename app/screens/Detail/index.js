@@ -8,6 +8,7 @@ import { Text } from 'react-native-elements';
 import { Constants } from 'expo';
 import Header from 'app/components/Header';
 import Loading from 'app/components/Loading';
+import config from 'umdemo/config';
 
 class Detail extends React.Component {
 
@@ -63,7 +64,7 @@ class Detail extends React.Component {
                                 
                 </View>
                 <WebView
-                    source={{uri: 'http://um.georacing.com/map?id='+activity.id}}
+                    source={{uri: config.API_URL +'/map?id='+activity.id}}
                     style={{marginTop: 20}}
                 />
             </View>   
