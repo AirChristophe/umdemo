@@ -9,6 +9,7 @@ import { AuthSession, Constants } from 'expo';
 import Header from 'app/components/Header';
 import Loading from 'app/components/Loading';
 import { tokenChange } from 'app/screens/App/actions';
+import config from 'umdemo/config';
 
 class MyApps extends React.Component {
 
@@ -89,7 +90,7 @@ class MyApps extends React.Component {
 
             let responseJson = await result1.json();
 
-            const url = `http://um.georacing.com/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
 
             const response = await fetch(url);
             if (response) {
@@ -164,7 +165,7 @@ class MyApps extends React.Component {
             console.log("responseJson");
             console.log(responseJson);
 
-            const url = `http://um.georacing.com/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=${responseJson.access_token}&rt=${responseJson.refresh_token}&uid=${responseJson.user_id}`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=${responseJson.access_token}&rt=${responseJson.refresh_token}&uid=${responseJson.user_id}`;
 
             console.log("url : " + url);
 
@@ -194,7 +195,7 @@ class MyApps extends React.Component {
               }
             );
             if (result) {
-                const url = `http://um.georacing.com/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=null&rt=null&uid=null`;
+                const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=6&t=null&rt=null&uid=null`;
                 console.log(url);
                 const response = await fetch(url);
                 if (response) {
@@ -248,7 +249,7 @@ class MyApps extends React.Component {
 
             let responseJson = await result1.json();
 
-            const url = `http://um.georacing.com/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
 
             const response = await fetch(url);
             if (response) {
@@ -266,7 +267,7 @@ class MyApps extends React.Component {
           }
         );
         if (result) {
-            const url = `http://um.georacing.com/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
             console.log(url);
             const response = await fetch(url);
             if (response) {
@@ -332,7 +333,7 @@ class MyApps extends React.Component {
             // console.log(tokenUrl);
             // console.log(responseJson);
 
-            const url = `http://um.georacing.com/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
             // console.log(url);
 
             const response = await fetch(url);
@@ -357,7 +358,7 @@ class MyApps extends React.Component {
           }
         );
         if (result) {
-            const url = `http://um.georacing.com/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
             console.log(url);
             const response = await fetch(url);
             if (response) {
