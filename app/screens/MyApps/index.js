@@ -10,6 +10,7 @@ import Header from 'app/components/Header';
 import Loading from 'app/components/Loading';
 import { tokenChange } from 'app/screens/App/actions';
 
+
 class MyApps extends React.Component {
 
     constructor(props) {

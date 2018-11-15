@@ -31,8 +31,24 @@ class Home extends React.Component {
                     onPress={() => this.props.navigation.openDrawer()}
                 />
             </View>
+            <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
+                  <Image
+                    style={{
+                      flex: 1,
+                    }}
+                    source={{ uri: "./assets/images/home.png" }}
+                  />
+                </View>
             <View style={styles.container}>
-                    <Text style={styles.title}>UM DEMO</Text>
+                    <Text style={styles.title}>UM DEMOmm</Text>
                     <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>        
             </View>
             
@@ -67,7 +83,7 @@ const styles = StyleSheet.create({
         // backgroundColor: '#FFFFFF',
     }, 
     title: {
-        flex: 1,
+        flex: 2,
         flexDirection: 'row',        
         maxHeight: 40,
         textAlign: 'center',
