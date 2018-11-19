@@ -5,8 +5,10 @@ import moment from 'moment';
 import config from 'umdemo/config';
 
 
-export async function getMyActivities(uid) {
-    const url = `${config.API_URL}/dyn/action.php?Action=GET_MY_ACTIVITIES&id=${uid}`;
+export async function getMyActivities(uid,limit,offset) {
+    if(!limit){ limit = 20; }
+    if(!offset){ offset = 0; }
+    const url = `${config.API_URL}/dyn/action.php?Action=GET_MY_ACTIVITIES&id=${uid}&limit=${limit}&offset=${offset}`;
     try {
         let response = await fetch(
             url, {

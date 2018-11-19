@@ -40,8 +40,8 @@ class MyApps extends React.Component {
 
         this.connectMapMyRun = this.connectMapMyRun.bind(this);
         this.disconnectMapMyRun = this.disconnectMapMyRun.bind(this);
-        this.mapMyRunClientId = 12345; //obtenir un vrai id
-        this.mapMyRunClientSecret = 'xxxx'; //obtenir une vraie clé
+        this.mapMyRunClientId = 'od5i5ughrttqz7jzf7w3kzlku5dqn3nw';
+        this.mapMyRunClientSecret = 'hqbchss7iut4mvvlhp5g2og3jbzn5xjse3mbdye52dxqmqwxg2gk25xt5i5empkt';
 
         this.connectFitbit = this.connectFitbit.bind(this);
         this.disconnectFitbit = this.disconnectFitbit.bind(this);
@@ -229,30 +229,43 @@ class MyApps extends React.Component {
         if (result) {
 
             console.log("mapmyrun result");
-            const tokenUrl = 'https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token/';
-            const params = {
+            console.log(result);
+
+            //const tokenUrl = 'https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token/';
+            const tokenUrl = 'https://api.ua.com/v7.1/oauth2/access_token/';
+            console.log('tokenUrl: ' + tokenUrl);
+
+            const bodyRequest = 'grant_type=client_credentials&client_id='+this.mapMyRunClientId+'&client_secret='+this.mapMyRunClientSecret;
+            console.log('bodyRequest: ' + bodyRequest);
+
+            /*const params = {
                 client_id: this.mapMyRunClientId,
                 client_secret: this.mapMyRunClientSecret,
                 code: result.params.code
-            };
+                grant_type: 'client_credentials'
+            };*/
 
             let result1 = await fetch(
                 tokenUrl, {
                     method: 'POST',
                     headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: JSON.stringify(params),
+                    body: bodyRequest,
                 }
             );
 
             let responseJson = await result1.json();
+            console.log("responseJson");
+            console.log(responseJson);
 
-            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=5&t=${responseJson.access_token}`;
+            console.log('url: ' + url);
 
             const response = await fetch(url);
             if (response) {
+                console.log("response");
+                console.log(response);
                 this.props.onTokenChange(auth.user.uid);
             }
         }
@@ -260,20 +273,24 @@ class MyApps extends React.Component {
 
     disconnectMapMyRun = async (token) => {
         const { auth } = this.props;
+       
+        //TODO recup d'une façon où d'une autre le user_id
+        /*
         const result = await fetch('https://www.mapmyfitness.com/v7.1/oauth2/connection/' + 
                                     `?user_id=${token}` +
                                     `?client_id=${this.mapMyRunClientId}`, { //todo: à voir si l'addresse fonctionne
             method: 'DELETE'
           }
-        );
-        if (result) {
-            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=null`;
+        );*/
+
+       // if (result) {
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=5&t=null&uid=null`;
             console.log(url);
             const response = await fetch(url);
             if (response) {
                 this.props.onTokenChange(auth.user.uid);
             }
-        }
+        //}
     }
     
     code() {
@@ -380,6 +397,11 @@ class MyApps extends React.Component {
             console.log(222);
             console.log(fitbit);
             return `token => ${fitbit}`;
+        }
+        if (mapMyRun) {
+            console.log(333);
+            console.log(mapMyRun);
+            return `token => ${mapMyRun}`;
         }
         console.log(222);
         return '';
@@ -515,12 +537,12 @@ class MyApps extends React.Component {
     root: {
       flex: 1,
       backgroundColor: '#f3f3f3',
-      justifyContent: 'center', 
-      alignItems: 'center', 
+      //justifyContent: 'center', 
+      alignItems: 'center', //alignement horizontal
       marginTop: Constants.statusBarHeight,
     },
     container: {
-      flex: 1,
+      flex: 0,
       flexDirection: 'column',
       backgroundColor: '#f3f3f3',
 
