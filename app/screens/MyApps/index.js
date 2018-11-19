@@ -11,6 +11,7 @@ import Loading from 'app/components/Loading';
 import { tokenChange } from 'app/screens/App/actions';
 import config from 'umdemo/config';
 
+
 class MyApps extends React.Component {
 
     constructor(props) {

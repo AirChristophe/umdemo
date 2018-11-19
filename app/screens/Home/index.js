@@ -21,33 +21,49 @@ class Home extends React.Component {
     
 
       return (
-        <View style={styles.root}>
-            <View style={styles.menu}>
-                <Icon
-                    style={styles.iconMenu}
-                    name='menu'
-                    size={30}
-                    color="#000000"
-                    onPress={() => this.props.navigation.openDrawer()}
-                />
-            </View>
-            <View style={styles.container}>
-                    <Text style={styles.title}>UM DEMO</Text>
-                    <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>        
-            </View>
+
+        <ImageBackground source={require('./images/home.png')} style={styles.backgroundImage}>
             
-        </View>
+                <View style={styles.menu}>
+                    <Icon
+                        style={styles.iconMenu}
+                        name='menu'
+                        size={30}
+                        color="#000000"
+                        onPress={() => this.props.navigation.openDrawer()}
+                    />
+                </View>            
+                <View style={styles.container}>
+                        <Text style={styles.title}>UM DEMO</Text>
+                        <Text style={styles.text}>Centralize all your data in a simple and securized place.</Text>        
+                </View>
+                
+           
+        </ImageBackground>
+ 
       );
     }
   }
 
+
+
+
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        marginTop: Constants.statusBarHeight,
+
+    },
     root: {
         flex: 1,
         backgroundColor: '#f3f3f3',
         // justifyContent: 'center', 
         // alignItems: 'center', 
         marginTop: Constants.statusBarHeight,
+        position: 'absolute'
       },
     container: {
         flex: 1,
@@ -67,20 +83,24 @@ const styles = StyleSheet.create({
         // backgroundColor: '#FFFFFF',
     }, 
     title: {
-        flex: 1,
+        flex: 2,
         flexDirection: 'row',        
         maxHeight: 40,
         textAlign: 'center',
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'red',
     }, 
     text: {
         //flex: 1,
         flexDirection: 'row',
         textAlign: 'center',
-        backgroundColor: '#014786',
+        backgroundColor: '#01478680',
         color: '#ffffff',
         width: '80%',
         padding: 40,
-        marginBottom: 100
+        marginBottom: 100,
+        marginTop: 50,
         // backgroundColor: '#FFFFFF',
     }, 
     image: {
