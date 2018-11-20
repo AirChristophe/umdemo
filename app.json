@@ -1,6 +1,6 @@
 {
   "expo": {
-    "icon": "./assets/app-icon.png",
+    "icon": "./assets/app-icon.jpg",
     "name": "umdemo",
     "orientation": "portrait",
     "primaryColor": "#008857",
