@@ -78,7 +78,7 @@ class MyActivities extends React.Component {
                             <TouchableOpacity style={{ flex: 1,flexDirection: 'row',padding: 5 ,backgroundColor: (index % 2 == 0) ? '#ecf0f1' : '#fff' }} key={activity.id} onPress={() => this._onPress(activity)}>                                                                
                                   <View style={styles.left}>
                                     <Image source={{uri: activity.provider_image}} style={styles.image} />
-                                    <Text style={styles.text}>{activity.provider_name} {index}</Text>
+                                    <Text style={styles.text}>{activity.provider_name}</Text>
                                   </View>
                                   <View style={styles.right}>
                                     <Text style={styles.text}>{activity.sport_name} : {activity.name} - {activity.activity_start_time}</Text>

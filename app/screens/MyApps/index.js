@@ -507,24 +507,23 @@ class MyApps extends React.Component {
                 <ScrollView>
 
                 {
-                    app.providers.map(provider => {
-                        if( provider.id != 2 && provider.id != 4) //JB: ceci est un test car les app 2 et 4 n'on pas de connecteur pour le moment
-                        {
-                            return (
-                                <View key={provider.id} style={styles.list}>
-                                    <View style={styles.left}>
-                                        <Image source={{uri: provider.image}} style={styles.image} />
-                                        <Text style={styles.text}>{provider.name}</Text>
-                                    </View>
-                                    <View style={styles.center}>
-
-                                    </View>
-                                    <View style={styles.right}>
-                                        {this.getButton(provider)}
-                                    </View>                              
+                    app.providers.map((provider, index) => {
+                        
+                        return (
+                            <View key={provider.id} style={{display: 'flex',flexDirection: 'row',alignItems: 'center', height: 100,backgroundColor: (index % 2 == 0) ? '#ecf0f1' : '#fff'}}>
+                                <View style={styles.left}>
+                                    <Image source={{uri: provider.image}} style={styles.image} />
+                                    <Text style={styles.text}>{provider.name}</Text>
                                 </View>
-                            );
-                        }
+                                <View style={styles.center}>
+
+                                </View>
+                                <View style={styles.right}>
+                                    {this.getButton(provider)}
+                                </View>                              
+                            </View>
+                        );
+                       
                     })
                 }
                 </ScrollView>
@@ -538,7 +537,7 @@ class MyApps extends React.Component {
   const styles = StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: '#f3f3f3',
+      backgroundColor: '#FFFFFF',
       //justifyContent: 'center', 
       alignItems: 'center', //alignement horizontal
       marginTop: Constants.statusBarHeight,
@@ -546,7 +545,7 @@ class MyApps extends React.Component {
     container: {
       flex: 0,
       flexDirection: 'column',
-      backgroundColor: '#f3f3f3',
+      backgroundColor: '#FFFFFF',
 
     },
     list: {
