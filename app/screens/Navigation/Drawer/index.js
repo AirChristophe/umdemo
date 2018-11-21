@@ -67,14 +67,14 @@ export default createDrawerNavigator({
             ),
           }),
     },
-    Timeout: {
+    /*Timeout: {
         screen: Timeout,
         navigationOptions: ({ navigation }) => ({
             drawerLabel: ' '
         }),
-    },
+    },*/
 }, {
     // drawerPosition: 'right',
-    // initialRouteName: 'Home',
-    initialRouteName: 'Timeout',
+    initialRouteName: 'Home',
+    //initialRouteName: 'Timeout',
 });
