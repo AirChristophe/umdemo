@@ -218,7 +218,8 @@ class MyApps extends React.Component {
     connectMapMyRun = async() => {
         const { auth } = this.props;
         let redirectUrl = AuthSession.getRedirectUrl();
-        const authUrl = `https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/` +
+        console.log("mapMyRun redirectUrl: " + redirectUrl);
+        const authUrl = `https://api.ua.com/v7.1/oauth2/authorize/` +
         `?client_id=${this.mapMyRunClientId}` +
         `&response_type=code` +
         `&redirect_uri=${encodeURIComponent(redirectUrl)}`;
@@ -235,8 +236,9 @@ class MyApps extends React.Component {
             //const tokenUrl = 'https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token/';
             const tokenUrl = 'https://api.ua.com/v7.1/oauth2/access_token/';
             console.log('tokenUrl: ' + tokenUrl);
+            const code = result.params.code
 
-            const bodyRequest = 'grant_type=client_credentials&client_id='+this.mapMyRunClientId+'&client_secret='+this.mapMyRunClientSecret;
+            const bodyRequest = 'grant_type=authorization_code&client_id='+this.mapMyRunClientId+'&client_secret='+this.mapMyRunClientSecret+'&code='+code;
             console.log('bodyRequest: ' + bodyRequest);
 
             /*const params = {
