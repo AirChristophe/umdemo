@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         fontSize: 45,
         padding: 10,
         fontWeight: 'bold',
-        backgroundColor: '#01478620',
+        /*backgroundColor: '#01478620',*/
         color: '#274f8e',
     }, 
     text: {
