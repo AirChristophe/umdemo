@@ -468,9 +468,8 @@ class MyApps extends React.Component {
     render() {
         const { app, rand } = this.props;
 
-        console.log(5555555);
-        console.log(rand);
-        console.log(app);
+        //console.log(rand);
+        //console.log(app);
         
         const { strava, mapMyRun, fitbit, loading } = this.state;
 
@@ -483,7 +482,7 @@ class MyApps extends React.Component {
                 <View style={styles.root}>
                 <Header
                     onPress={() => this.props.navigation.goBack()}
-                    text="My Apps"
+                    text="My Applications"
                 />
                 <View style={styles.container}>
                     <Loading />
@@ -497,7 +496,7 @@ class MyApps extends React.Component {
         <View style={styles.root}>
             <Header
                 onPress={() => this.props.navigation.goBack()}
-                text="My Apps"
+                text="My Applications"
             />
             <View style={styles.container}>
 

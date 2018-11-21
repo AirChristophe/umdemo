@@ -42,7 +42,7 @@ export default createDrawerNavigator({
     MyApps: {
         screen: MyApps,
         navigationOptions: ({ navigation }) => ({
-            drawerLabel: 'My Apps',
+            drawerLabel: 'My Applications',
             drawerIcon: () => (
               <Icon
                   name='th-large'
