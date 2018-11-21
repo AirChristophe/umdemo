@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isNetwork from 'umdemo/utils/isNetwork';
 import NoNetwork from 'app/components/NoNetwork';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet,Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-elements';
 import { Constants } from 'expo';
 import Header from 'app/components/Header';
@@ -75,11 +75,18 @@ class MyActivities extends React.Component {
                 {
                     datas.map(activity => {
                         return (
-                            <TouchableOpacity key={activity.id} onPress={() => this._onPress(activity)}>
-                                <View style={styles.item}>
-                                    <Text>Source: {activity.provider_name} / Sport : {activity.sport_name}</Text>
-                                    <Text>{activity.start_time} - {activity.name}</Text>
-                                </View>
+                            <TouchableOpacity style={styles.line} key={activity.id} onPress={() => this._onPress(activity)}>
+                              
+
+                                  <View style={styles.left}>
+                                    <Image source={{uri: activity.provider_image}} style={styles.image} />
+                                    <Text style={styles.text}>{activity.provider_name}</Text>
+                                  </View>
+                                  <View style={styles.right}>
+                                    <Text style={styles.text}>{activity.sport_name} : {activity.name} - {activity.activity_start_time}</Text>
+                                  </View>
+
+                                
                             </TouchableOpacity>
                         );
                     })
@@ -112,8 +119,31 @@ class MyActivities extends React.Component {
         margin: 15,
     },
     list: {
-
+      flex: 1
     },
+    line: {
+      flex: 1,
+      flexDirection: 'row',
+      margin: 5,
+    },
+    image: {
+        width: 20, 
+        height: 20
+    },
+    text: {
+        textAlign: 'center',
+        //backgroundColor: '#0000ff',
+    },
+    left: {
+       width: '15%', 
+       justifyContent: 'center',
+       alignItems: 'center', 
+    },
+    right: {
+        width:'85%',
+        justifyContent: 'center',
+       alignItems: 'center',
+    }
   });
 
 

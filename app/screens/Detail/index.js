@@ -40,7 +40,7 @@ class Detail extends React.Component {
                 <View style={styles.root}>
                 <Header
                     onPress={() => this.props.navigation.goBack()}
-                    text="Detail"
+                    text={activity.name}
                 />
                 <View style={styles.container}>
                     <Loading />
@@ -53,18 +53,15 @@ class Detail extends React.Component {
         <View style={styles.root}>
             <Header
                 onPress={() => this.props.navigation.goBack()}
-                text="Detail"
+                text={activity.name}
             />
             <View style={styles.container}>
                 <View style={styles.list}>
-                    <Text>id {activity.id}</Text>
-                    <Text>name {activity.name}</Text>
-                    <Text>provider_name {activity.provider_name}</Text>
-                    <Text>start_time {activity.start_time}</Text>
+                    <Text>{activity.name} - {activity.activity_start_time}</Text>
                                 
                 </View>
                 <WebView
-                    source={{uri: config.API_URL +'/map?id='+activity.id}}
+                    source={{uri: config.API_URL +'/map?v=1&id='+activity.id}}
                     style={{marginTop: 20}}
                 />
             </View>   

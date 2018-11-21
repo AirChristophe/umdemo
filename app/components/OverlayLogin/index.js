@@ -8,8 +8,6 @@ import { withNavigation } from 'react-navigation';
 
 class OverlayLogin extends React.Component  {
   render() {
-
-    console.log(111111);
     console.log(this.props);
     return (
       <View style={styles.container}>
