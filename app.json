@@ -1,13 +1,13 @@
 {
   "expo": {
-    "icon": "./assets/app-icon.jpg",
+    "icon": "./assets/app-icon.png",
     "name": "umdemo",
     "orientation": "portrait",
     "primaryColor": "#008857",
     "privacy": "unlisted",
     "sdkVersion": "29.0.0",
     "slug": "umdemo",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "assetBundlePatterns": [
       "umdemo/assets/**",
       "umdemo/assets/images/**",
