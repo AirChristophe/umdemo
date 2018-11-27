@@ -2,7 +2,7 @@
   "expo": {
     "icon": "./assets/app-icon.jpg",
     "name": "umdemo",
-    "orientation": "portrait",
+    "orientation": "default",
     "primaryColor": "#008857",
     "privacy": "unlisted",
     "sdkVersion": "29.0.0",

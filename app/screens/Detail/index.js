@@ -2,13 +2,16 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import isNetwork from 'umdemo/utils/isNetwork';
+import { isPortrait } from 'umdemo/utils/platform';
 import NoNetwork from 'app/components/NoNetwork';
-import { View, StyleSheet, ScrollView, WebView } from 'react-native';
+import { View, StyleSheet, ScrollView, WebView, Dimensions } from 'react-native';
 import { Text } from 'react-native-elements';
 import { Constants } from 'expo';
 import Header from 'app/components/Header';
 import Loading from 'app/components/Loading';
 import config from 'umdemo/config';
+
+
 
 class Detail extends React.Component {
 
@@ -18,12 +21,22 @@ class Detail extends React.Component {
         this.state = {
             loading: false,
             datas: false,
+            portrait: isPortrait()
         };
+
+         // Event Listener for orientation changes
+        Dimensions.addEventListener('change', () => {
+            this.setState({
+                portrait: isPortrait()
+            });
+        });
+
+        
     }
 
     render() {
         const { app } = this.props;
-        const { loading, datas } = this.state;
+        const { loading, datas, portrait } = this.state;
 
         const { navigation } = this.props;
         const activity = navigation.getParam('activity', {});
@@ -49,24 +62,32 @@ class Detail extends React.Component {
             );           
         }
 
-      return (
-        <View style={styles.root}>
-            <Header
-                onPress={() => this.props.navigation.goBack()}
-                text={activity.name}
-            />
-            <View style={styles.container}>
-                <View style={styles.list}>
-                    <Text>{activity.name} - {activity.activity_start_time}</Text>
-                                
-                </View>
-                <WebView
-                    source={{uri: config.API_URL +'/map?v=1&id='+activity.id}}
-                    style={{marginTop: 20}}
-                />
-            </View>   
-        </View>
-      );
+       if(portrait)
+       { 
+         return (
+              <View style={styles.root}>
+                  <Header
+                      onPress={() => this.props.navigation.goBack()}
+                      text={activity.name}
+                  />
+                  <View style={styles.container}>
+                      <View style={styles.list}>
+                          <Text>{activity.name} - {activity.activity_start_time}</Text>
+                          <Text>{config.API_URL +'/map?v=1&id='+activity.id}</Text>  
+                      </View>
+                      <WebView source={{uri: config.API_URL +'/map?v=1&id='+activity.id}} />
+                  </View>   
+              </View>
+          );
+        }else{
+          return (
+              <View style={styles.root}>
+                  <View style={styles.container}>
+                      <WebView source={{uri: config.API_URL +'/map?v=1&id='+activity.id}} />
+                  </View>   
+              </View>
+          );
+        }
     }
   }
 
@@ -85,7 +106,7 @@ class Detail extends React.Component {
     },
     list: {
         padding: 10,
-      },
+      }
   });
 
 

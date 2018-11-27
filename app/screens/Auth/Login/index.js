@@ -112,7 +112,7 @@ class Login extends React.Component {
     return (
       <View style={styles.root}>
             <Header
-                leftComponent={{ size: 30, icon: 'menu', color: '#fff', onPress: () => this.props.navigation.openDrawer(), }}
+                leftComponent={{  }}
                 centerComponent={{ text: 'Authentification', style: { color: '#fff' } }}
                 statusBarProps={{ barStyle: 'light-content' }}
                 outerContainerStyles={{ width: '100%'  }}
