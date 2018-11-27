@@ -73,20 +73,16 @@ class MyActivities extends React.Component {
 
                 <View style={styles.list}>
                 {
-                    datas.map(activity => {
-                        return (
-                            <TouchableOpacity style={styles.line} key={activity.id} onPress={() => this._onPress(activity)}>
-                              
-
+                    datas.map((activity, index)  => {
+                        return (                          
+                            <TouchableOpacity style={{ flex: 1,flexDirection: 'row',padding: 5 ,backgroundColor: (index % 2 == 0) ? '#ecf0f1' : '#fff' }} key={activity.id} onPress={() => this._onPress(activity)}>                                                                
                                   <View style={styles.left}>
                                     <Image source={{uri: activity.provider_image}} style={styles.image} />
                                     <Text style={styles.text}>{activity.provider_name}</Text>
                                   </View>
                                   <View style={styles.right}>
                                     <Text style={styles.text}>{activity.sport_name} : {activity.name} - {activity.activity_start_time}</Text>
-                                  </View>
-
-                                
+                                  </View>                              
                             </TouchableOpacity>
                         );
                     })
@@ -99,6 +95,8 @@ class MyActivities extends React.Component {
       );
     }
   }
+
+  let colors = ['#123456', '#654321'];
 
   const styles = StyleSheet.create({
     root: {

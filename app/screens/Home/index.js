@@ -85,11 +85,13 @@ const styles = StyleSheet.create({
     title: {
         flex: 2,
         flexDirection: 'row',        
-        maxHeight: 40,
+        maxHeight: 80,
         textAlign: 'center',
-        fontSize: 30,
+        fontSize: 45,
+        padding: 10,
         fontWeight: 'bold',
-        color: 'red',
+        /*backgroundColor: '#01478620',*/
+        color: '#274f8e',
     }, 
     text: {
         //flex: 1,
