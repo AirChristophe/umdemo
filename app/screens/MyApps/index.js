@@ -10,6 +10,8 @@ import Header from 'app/components/Header';
 import Loading from 'app/components/Loading';
 import { tokenChange } from 'app/screens/App/actions';
 import config from 'umdemo/config';
+import base64 from 'react-native-base64'
+
 
 
 class MyApps extends React.Component {
@@ -17,13 +19,17 @@ class MyApps extends React.Component {
     constructor(props) {
         super(props);
 
+        const current_date = new Date();
+        console.log(current_date);
+
         this.state = {
             loading: false,
             data: false,
             strava: false,
             garmin: false,
             mapMyRun: false,
-            fitbit: false
+            fitbit: false,
+            polar: false
         };
 
         this.connectApi = this.connectApi.bind(this);
@@ -48,6 +54,11 @@ class MyApps extends React.Component {
         this.disconnectFitbit = this.disconnectFitbit.bind(this);
         this.fitbitClientId = '22D5K4'; 
         this.fitbitClientSecret = 'd8ff40394d01c60b538ba92acfbf81b1';
+
+        this.connectPolar = this.connectPolar.bind(this);
+        this.disconnectPolar = this.disconnectPolar.bind(this);
+        this.polarClientId = 'dc313a75-2aa0-44a1-b717-6c35e9181ab3'; 
+        this.polarClientSecret = 'c7ae6ae7-0e51-47b4-b3a7-4ac74dd9e660';
     }
     /*
     componentWillMount = async () => {
@@ -91,7 +102,7 @@ class MyApps extends React.Component {
 
             let responseJson = await result1.json();
 
-            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=1&t=${responseJson.access_token}&uid=${responseJson.x_user_id}`;
 
             const response = await fetch(url);
             if (response) {
@@ -103,6 +114,108 @@ class MyApps extends React.Component {
     disconnectGarmin= async(token) => {
 
     }
+
+    connectPolar = async() => {
+        const { auth } = this.props;
+
+        let redirectUrl = AuthSession.getRedirectUrl();
+        //let redirectUrl = 'https://auth.expo.io/@georacing/umdemo';
+        //let redirectUrl = 'https://expo.io';
+        console.log('redirectUrl'); console.log(redirectUrl);
+
+        //https://flow.polar.com/oauth2/authorization?response_type=code&scope={SCOPE}&client_id={CLIENT_ID}&state={STATE}
+
+        const authUrl = `https://flow.polar.com/oauth2/authorization` +
+        `?client_id=${this.polarClientId}` +
+        `&response_type=code` +
+        `&redirect_uri=${encodeURIComponent(redirectUrl)}` + 
+        `&scope=accesslink.read_all`;
+
+        console.log('authUrl'); console.log(authUrl);
+
+        const result = await AuthSession.startAsync({
+            authUrl: authUrl,
+        });
+
+        if (result) {
+
+            console.log("polar result");
+            console.log(result);
+
+            const tokenUrl = 'https://polarremote.com/v2/oauth2/token';
+
+            //const Auth = this.polarClientId + ':' + this.polarClientSecret;
+            //const Auth64 = btoa(this.polarClientId + ':' + this.polarClientSecret);
+            //const Auth64 = new Buffer(this.polarClientId + ':' + this.polarClientSecret).toString("base64");
+            const Auth64 = base64.encode(this.polarClientId + ':' + this.polarClientSecret);
+
+            console.log("Auth2 : " + Auth64);
+            console.log("client_id : " + this.polarClientId);
+            console.log("code : " + result.params.code);
+            console.log("redirect_uri : " + encodeURIComponent(redirectUrl));
+
+            const bodyRequest = 'grant_type=authorization_code&code='+result.params.code+'&redirect_uri='+encodeURIComponent(redirectUrl);
+ 
+            console.log("body : " + bodyRequest);
+
+            let resultPolar = await fetch(
+                tokenUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Basic '+ Auth64,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json;charset=UTF-8'
+                    },
+                    body: bodyRequest,
+                }
+            );     
+
+            let responseJson = await resultPolar.json();
+
+            console.log("responseJson");
+            console.log(responseJson);
+
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=7&t=${responseJson.access_token}&uid=${responseJson.x_user_id}`;
+
+            console.log("url : " + url);
+
+            const response = await fetch(url);
+
+            console.log("response");
+            console.log(response);
+
+            if (response) {
+                this.props.onTokenChange(auth.user.uid);
+            }
+        }
+    }
+
+    disconnectPolar= async(token) => {
+
+        const Auth64 = base64.encode(this.polarClientId + ':' + this.polarClientSecret);
+
+        const { auth } = this.props;
+            /*const result = await fetch('https://api.fitbit.com/oauth2/revoke', { //todo: à voir si l'addresse fonctionne
+                method: 'POST',
+                headers: {
+                  'Authorization': 'Basic '+AuthBase64,
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'token='+token
+              }
+            );*/
+            //if (result) {
+                console.log("in disconnectPolar");
+                const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=7&t=null&rt=null&uid=null`;
+                console.log(url);
+                const response = await fetch(url);
+                console.log(response);
+                if (response) {
+                    this.props.onTokenChange(auth.user.uid);
+                }
+            //}
+    }
+
 
     connectFitbit= async() => {
         const { auth } = this.props;
@@ -203,16 +316,6 @@ class MyApps extends React.Component {
                     this.props.onTokenChange(auth.user.uid);
                 }
             }
-        }
-    
-        code() {
-            const { fitbit } = this.state;
-
-            if (fitbit) {
-                console.log(fitbit);
-                return `token => ${fitbit}`;
-        }
-        return '';
     }
 
     connectMapMyRun = async() => {
@@ -262,7 +365,10 @@ class MyApps extends React.Component {
             console.log("responseJson");
             console.log(responseJson);
 
-            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=5&t=${responseJson.access_token}`;
+            const current_date = new Date();
+            console.log(current_date);
+
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=5&t=${responseJson.access_token}&rt=${responseJson.refresh_token}`;
             console.log('url: ' + url);
 
             const response = await fetch(url);
@@ -294,17 +400,6 @@ class MyApps extends React.Component {
                 this.props.onTokenChange(auth.user.uid);
             }
         //}
-    }
-    
-    code() {
-        const { mapMyRun } = this.state;
-
-        if (mapMyRun) {
-            console.log(mapMyRun);
-            return `token => ${mapMyRun}`;
-        }
-        return '';
-
     }
 
 
@@ -390,6 +485,8 @@ class MyApps extends React.Component {
     code() {
         const { strava } = this.state;
         const { fitbit } = this.state;
+        const { mapMyRun } = this.state;
+        const { polar } = this.state;
 
         if (strava) {
             console.log(111);
@@ -406,7 +503,12 @@ class MyApps extends React.Component {
             console.log(mapMyRun);
             return `token => ${mapMyRun}`;
         }
-        console.log(222);
+        if(polar) {
+            console.log(444);
+            console.log(polar);
+            return `token => ${polar}`;
+        }
+        console.log(0);
         return '';
 
     }
@@ -429,6 +531,9 @@ class MyApps extends React.Component {
               break;
             case "6":
                 await this.connectFitbit();
+              break;
+            case "7":
+                await this.connectPolar();
               break;
             default:
               return false;
@@ -453,6 +558,9 @@ class MyApps extends React.Component {
             case "6":
                 await this.disconnectFitbit(provider.token);
               break;
+            case "7":
+                await this.disconnectPolar(provider.token);
+              break;
             default:
               return false;
         }
@@ -473,7 +581,7 @@ class MyApps extends React.Component {
         //console.log(rand);
         //console.log(app);
         
-        const { strava, mapMyRun, fitbit, loading } = this.state;
+        const { strava, mapMyRun, fitbit, polar, loading } = this.state;
 
         if (!isNetwork(app.isNetwork)) {
             return <NoNetwork />;
