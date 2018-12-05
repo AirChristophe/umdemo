@@ -19,9 +19,6 @@ class MyApps extends React.Component {
     constructor(props) {
         super(props);
 
-        const current_date = new Date();
-        console.log(current_date);
-
         this.state = {
             loading: false,
             data: false,
@@ -57,8 +54,8 @@ class MyApps extends React.Component {
 
         this.connectPolar = this.connectPolar.bind(this);
         this.disconnectPolar = this.disconnectPolar.bind(this);
-        this.polarClientId = 'dc313a75-2aa0-44a1-b717-6c35e9181ab3'; 
-        this.polarClientSecret = 'c7ae6ae7-0e51-47b4-b3a7-4ac74dd9e660';
+        this.polarClientId = 'ff59191d-e07a-457c-9a60-fc6326745a0c'; 
+        this.polarClientSecret = '6f114c38-8f4f-4d1c-b82c-ef04682868d8';
     }
     /*
     componentWillMount = async () => {
@@ -137,7 +134,7 @@ class MyApps extends React.Component {
             authUrl: authUrl,
         });
 
-        if (result) {
+        if (result && result.type != 'cancel') {
 
             console.log("polar result");
             console.log(result);
@@ -365,10 +362,10 @@ class MyApps extends React.Component {
             console.log("responseJson");
             console.log(responseJson);
 
-            const current_date = new Date();
-            console.log(current_date);
+            const current_utc_date = new Date().toISOString();
+            console.log(current_utc_date);
 
-            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=5&t=${responseJson.access_token}&rt=${responseJson.refresh_token}`;
+            const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=5&t=${responseJson.access_token}&rt=${responseJson.refresh_token}&d=${current_utc_date}&e=${responseJson.expires_in}`;
             console.log('url: ' + url);
 
             const response = await fetch(url);
@@ -396,6 +393,7 @@ class MyApps extends React.Component {
             const url = `${config.API_URL}/dyn/action.php?Action=SET_TOKEN&id=${auth.user.uid}&p=5&t=null&uid=null`;
             console.log(url);
             const response = await fetch(url);
+            console.log(response);
             if (response) {
                 this.props.onTokenChange(auth.user.uid);
             }
