@@ -7,7 +7,8 @@
     "privacy": "unlisted",
     "sdkVersion": "29.0.0",
     "slug": "umdemo",
-    "version": "1.0.1",
+    "version": "1.0.4",
+    "scheme": "myapp",
     "assetBundlePatterns": [
       "umdemo/assets/**",
       "umdemo/assets/images/**",

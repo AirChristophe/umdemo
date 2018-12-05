@@ -6,6 +6,7 @@ import Home from 'app/screens/Home';
 import Profile from 'app/screens/Auth/Profile';
 import MyApps from 'app/screens/MyApps';
 import MyActivities from 'app/screens/MyActivities';
+import Credits from 'app/screens/Credits';
 import Timeout from 'app/screens/Timeout';
 import { Icon } from 'react-native-elements';
 import { colors } from 'umdemo/constants';
@@ -46,7 +47,7 @@ export default createDrawerNavigator({
             drawerIcon: () => (
               <Icon
                   name='th-large'
-                  type='font-awesome'
+                  type='font-awesome' /* https://fontawesome.com/icons?d=gallery */
                   size={24}
                   color={colors.main}
               />
@@ -65,6 +66,20 @@ export default createDrawerNavigator({
                   color={colors.main}
               />
             ),
+          }),
+    },
+    Credits: {
+        screen: Credits,
+        navigationOptions: ({ navigation }) => ({
+            drawerLabel: 'Credits',
+            drawerIcon: () => (
+              <Icon
+                  name='help'
+                  type='MaterialIcons' /* https://oblador.github.io/react-native-vector-icons/ */
+                  size={24}
+                  color={colors.main}
+              />
+            ),            
           }),
     },
     /*Timeout: {
